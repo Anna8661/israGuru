@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EventDto {
 	String id;
-	String guideId;
+	String emailGuide;
 	String title;
 	String shortDescription;
 	String fullDescription;
@@ -36,7 +36,7 @@ public class EventDto {
 	String difficultyLevel;
 	String language;
 	MeetingPointDto meetingPoint;
-	boolean activityStatus;
+	String activityStatus;
 
 
 }

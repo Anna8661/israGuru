@@ -2,12 +2,12 @@ package telran.java38.israGuru.guide.dto;
 
 import java.util.List;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public class GuideUpdateDto {
-	String guideId;
-	String email;
 	String firstName;
 	String lastName;
 	String image;
@@ -16,5 +16,4 @@ public class GuideUpdateDto {
 	String description;
 	String additionalDescription;
 	SocialMediaDto socialMedia;	
-
 }

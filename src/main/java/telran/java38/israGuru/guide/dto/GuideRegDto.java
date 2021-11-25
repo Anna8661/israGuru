@@ -5,8 +5,7 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class NewGuideDto {
-	String guideId;
+public class GuideRegDto {
 	String email;
 	String firstName;
 	String lastName;
@@ -16,5 +15,6 @@ public class NewGuideDto {
 	String description;
 	String additionalDescription;
 	SocialMediaDto socialMedia;	
+	String password;
 
 }

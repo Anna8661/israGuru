@@ -26,7 +26,7 @@ import telran.java38.israGuru.event.dto.PriceDto;
 public class EventPast {
 	@Id
 	String id;
-	String guideId;
+	String emailGuide;
 	@Setter
 	String title;
 	@Setter
@@ -58,13 +58,13 @@ public class EventPast {
 	@Setter
 	MeetingPointDto meetingPoint;
 	@Setter
-	boolean activityStatus;
+	String activityStatus;
 	
 	
 
 	public EventPast() {
 		images = new ArrayList<String>();
-		activityStatus = false;		
+		activityStatus = "REMOVED";		
 	}
 	
 	

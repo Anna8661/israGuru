@@ -10,7 +10,6 @@ import lombok.Getter;
 
 @Getter
 public class NewEventDto {
-	String guideId;
 	String title;
 	String shortDescription;
 	String fullDescription;
@@ -29,6 +28,5 @@ public class NewEventDto {
 	String difficultyLevel;
 	String language;
 	MeetingPointDto meetingPoint;
-//	boolean activityStatus;
 
 }

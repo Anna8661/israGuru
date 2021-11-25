@@ -15,12 +15,11 @@ import telran.java38.israGuru.guide.dto.SocialMediaDto;
 
 @Getter
 @AllArgsConstructor
-@EqualsAndHashCode(of = {"guideId"})
+@EqualsAndHashCode(of = {"email"})
 @Builder
 @Document(collection = "guides")
 public class Guide {	
 	@Id
-	String guideId;
 	@Setter
 	String email;
 	@Setter
@@ -39,8 +38,10 @@ public class Guide {
 	String additionalDescription;
 	@Setter	
 	SocialMediaDto socialMedia;	
+	boolean guideVerification;
 	
 	public Guide() {
 		phoneNumbers = new ArrayList<String>();		
+		guideVerification = false;
 	}
 }

@@ -16,9 +16,9 @@ public interface EventService {
 
 	boolean activityEvent(String id, String guideId);
 
-//	boolean disactivityEvent(String id, String guideId);
+	boolean disactivityEvent(String id, String guideId);
 
-	Iterable<EventDtoMini> findEventsByGuideId(String guideId);
+	Iterable<EventDtoMini> findEventsByEmailGuide(String guideId);
 
 	Iterable<EventDtoMini> findEventsByCity(String city);
 
@@ -28,11 +28,11 @@ public interface EventService {
 
 	Iterable<EventDtoMini> findEventsByDifficultyLevel(String difficultyLevel);
 
-	Iterable<EventDtoMiniForGuide> findAktiveEventsByguideId(String guideId);
+	Iterable<EventDtoMiniForGuide> findAktiveEventsByEmailGuide(String emailGuide);
 
-	Iterable<EventDtoMiniForGuide> findPastEventsByguideId(String guideId);
+	Iterable<EventDtoMiniForGuide> findPastEventsByEmailGuide(String emailGuide);
 
-	Iterable<EventDtoMiniForGuide> findDraftEventsByguideId(String guideId);
+	Iterable<EventDtoMiniForGuide> findDraftEventsByEmailGuide(String emailGuide);
 
 	EventDto removeEventById(String id);
 

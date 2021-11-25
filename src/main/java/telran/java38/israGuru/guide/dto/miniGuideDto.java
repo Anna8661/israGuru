@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class miniGuideDto {
-	String guideId;
+	String email;
 	String firstName;
 	String LastName;
 	String image;

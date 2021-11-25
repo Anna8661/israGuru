@@ -50,8 +50,8 @@ public class EventController {
 //	}
 	
 	@GetMapping("/guide/{guideId}")
-	public Iterable<EventDtoMini> getEventsByGuideId(@PathVariable String guideId) {
-		return eventService.findEventsByGuideId(guideId);
+	public Iterable<EventDtoMini> getEventsByGuideId(@PathVariable String emaleGuide) {
+		return eventService.findEventsByEmailGuide(emaleGuide);
 	}
 	
 	@GetMapping("/city/{city}")
@@ -75,18 +75,18 @@ public class EventController {
 	}
 	
 	@GetMapping("/aktive/{guideId}")
-	public Iterable<EventDtoMiniForGuide> getActiveEventsByGuideId(@PathVariable String guideId) {
-		return eventService.findAktiveEventsByguideId(guideId);
+	public Iterable<EventDtoMiniForGuide> getActiveEventsByEmaleGuide(@PathVariable String emaleGuide) {
+		return eventService.findAktiveEventsByEmailGuide(emaleGuide);
 	}
 	
 	@GetMapping("/past/{guideId}")
-	public Iterable<EventDtoMiniForGuide> getPastEventsByGuideId(@PathVariable String guideId) {
-		return eventService.findPastEventsByguideId(guideId);
+	public Iterable<EventDtoMiniForGuide> getPastEventsByGuideId(@PathVariable String emaleGuide) {
+		return eventService.findPastEventsByEmailGuide(emaleGuide);
 	}
 	
 	@GetMapping("/draft/{guideId}")
-	public Iterable<EventDtoMiniForGuide> getDraftEventsByGuideId(@PathVariable String guideId) {
-		return eventService.findDraftEventsByguideId(guideId);
+	public Iterable<EventDtoMiniForGuide> getDraftEventsByEmaleGuide(@PathVariable String emaleGuide) {
+		return eventService.findDraftEventsByEmailGuide(emaleGuide);
 	}
 	
 	@DeleteMapping("/{id}")

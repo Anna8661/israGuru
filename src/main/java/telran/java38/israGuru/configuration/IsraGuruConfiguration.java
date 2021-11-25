@@ -1,4 +1,4 @@
-package telran.java38.israGuru.event.configuration;
+package telran.java38.israGuru.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration.AccessLevel;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class EventConfiguration {
+public class IsraGuruConfiguration {
 	
 	@Bean
 	public ModelMapper	getModelMapper () {

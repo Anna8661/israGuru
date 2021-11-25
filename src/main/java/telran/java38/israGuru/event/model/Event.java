@@ -27,7 +27,7 @@ import telran.java38.israGuru.event.dto.RecordingDto;
 public class Event {
 	@Id
 	String id;
-	String guideId;
+	String emailGuide;
 	@Setter
 	String title;
 	@Setter
@@ -59,7 +59,7 @@ public class Event {
 	@Setter
 	MeetingPointDto meetingPoint;
 	@Setter
-	boolean activityStatus;
+	String activityStatus;
 	@Setter
 	List<RecordingDto> recordings;
 	
@@ -68,7 +68,7 @@ public class Event {
 	public Event() {
 		images = new ArrayList<String>();
 		recordings = new ArrayList<>();
-		activityStatus = false;		
+		activityStatus = "DRAFT";		
 	}
 	
 	

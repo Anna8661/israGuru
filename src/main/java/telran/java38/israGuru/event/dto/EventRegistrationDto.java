@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class EventRegistrationDto {
-	String eventId;
+	String emailGuide;
 	String name;
 	String phoneNumber;
 	String email;

@@ -9,7 +9,7 @@ import telran.java38.israGuru.event.model.EventPast;
 
 public interface EventPastRepositoty extends MongoRepository<EventPast, String>{
 	
-	Stream <Event> findByGuideId(String guideId);
+	Stream <Event> findByEmailGuide(String emailGuide);
 //	Stream<Event> findByCity(String city);
 //	Stream<Event> findByDate(LocalDate date);
 //	Stream<Event> findByLanguage(String language);

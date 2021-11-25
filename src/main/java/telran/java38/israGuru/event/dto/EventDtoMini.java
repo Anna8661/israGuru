@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class EventDtoMini {
 	String id;
-	String guideId;
+	String emailGuide;
 	String title;
 	String shortDescription;
 	String city;
