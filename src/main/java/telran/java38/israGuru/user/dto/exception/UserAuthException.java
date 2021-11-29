@@ -9,7 +9,9 @@ public class UserAuthException extends RuntimeException {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -9197221398595170019L;
-
+	private static final long serialVersionUID = -103593031217094642L;
 	
+	
+
+
 }

@@ -6,14 +6,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class UserNotFoundException extends RuntimeException {
 
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3058435727853015397L;
+	private static final long serialVersionUID = 3542851745035732303L;
 
-	public UserNotFoundException(String userId) {
-		super("User " + userId + " is not found");
+	public UserNotFoundException(String guideId) {
+		super("Guide " + guideId + " is not found");
 		
 	}
 	

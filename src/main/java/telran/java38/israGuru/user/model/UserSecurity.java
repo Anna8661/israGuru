@@ -13,9 +13,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"email"})
 @Builder
-@Document(collection = "usersSecurity")
+@Document(collection = "guidesSecurity")
 public class UserSecurity {
 	@Id
+	@Setter
 	String email;
 	@Setter
 	String password;	

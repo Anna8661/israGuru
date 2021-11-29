@@ -20,8 +20,8 @@ import telran.java38.israGuru.event.dto.exceptions.EventHasRecordException;
 import telran.java38.israGuru.event.dto.exceptions.EventNotFoundException;
 import telran.java38.israGuru.event.model.Event;
 import telran.java38.israGuru.event.model.EventPast;
-import telran.java38.israGuru.guide.dao.GuideRepository;
-import telran.java38.israGuru.guide.dto.exception.GuideNotFoundException;
+import telran.java38.israGuru.user.dao.UserRepository;
+import telran.java38.israGuru.user.dto.exception.UserNotFoundException;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -33,7 +33,7 @@ public class EventServiceImpl implements EventService {
 //	EventPastRepositoty eventPastRepositoty;
 	
 	@Autowired
-	GuideRepository guideRepository;
+	UserRepository guideRepository;
 	
 	@Autowired
 	ModelMapper modelMapper;
@@ -168,7 +168,7 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public Iterable<EventDtoMini> findEventsByEmailGuide(String emailGuide) {
 		if (!guideRepository.existsById(emailGuide)) {
-			throw new GuideNotFoundException(emailGuide);			
+			throw new UserNotFoundException(emailGuide);			
 		}
 		return eventRepositoty.findByEmailGuide(emailGuide)
 				.filter(e -> checkDate(e))
