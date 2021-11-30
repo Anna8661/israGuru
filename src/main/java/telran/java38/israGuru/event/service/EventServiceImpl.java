@@ -91,7 +91,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public boolean activityEvent(String id, String guideId) {
+	public boolean activityEvent(String id) {
 		Event event = eventRepositoty.findById(id).orElseThrow(()-> new EventNotFoundException(id));
 		if (event.getDate().isBefore(LocalDate.now())) {
 			throw new RuntimeException("Event date cannot be in the past");			
@@ -102,10 +102,10 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public boolean disactivityEvent(String id, String guideId) {
+	public boolean disactivityEvent(String id) {
 		Event event = eventRepositoty.findById(id).orElseThrow(()-> new EventNotFoundException(id));
 		if (event.getRecordings().size() > 0) {
-			throw new EventHasRecordException(guideId);			
+			throw new EventHasRecordException(id);			
 		}
 		event.setActivityStatus("DRAFT");
 		event = eventRepositoty.save(event);

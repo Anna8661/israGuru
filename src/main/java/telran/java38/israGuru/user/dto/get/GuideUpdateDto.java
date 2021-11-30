@@ -14,5 +14,5 @@ public class GuideUpdateDto {
 	String license;
 	String description;
 	String additionalDescription;
-	Map<String, String> SocialMediaDto;		
+	Map<String, String> SocialMedia;		
 }

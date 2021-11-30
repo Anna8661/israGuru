@@ -1,8 +1,8 @@
 package telran.java38.israGuru.user.service;
 
 import telran.java38.israGuru.user.dto.GuideDto;
-import telran.java38.israGuru.user.dto.GuideRegDto;
 import telran.java38.israGuru.user.dto.UserDto;
+import telran.java38.israGuru.user.dto.get.GuideRegDto;
 import telran.java38.israGuru.user.dto.get.GuideUpdateDto;
 import telran.java38.israGuru.user.dto.get.GuideUpdatePasswordDto;
 import telran.java38.israGuru.user.dto.get.UserRegDto;
@@ -36,6 +36,8 @@ public interface UserServise {
 	boolean removeUser (String userId);
 
 	boolean updateUserPassword(String userId, UserUpdatePasswordDto userUpdatePasswordDto);
+
+	GuideDto findVerifiedGuideById(String guideId);
 
 
 }

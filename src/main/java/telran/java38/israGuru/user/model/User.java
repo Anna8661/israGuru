@@ -15,7 +15,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import telran.java38.israGuru.enumIsraGuru.Role;
 
 @Getter
 @AllArgsConstructor
@@ -42,12 +41,12 @@ public class User {
 	String additionalDescription;
 	@Setter	
 	Map<String, String> socialMedia;	
-	Set<Role> roles;
+	Set<String> roles;
 	
 	public User() {
 		phoneNumbers = new ArrayList<String>();		
-		roles = new HashSet<Role>();
-		roles.add(Role.USER);
+		roles = new HashSet<>();
+		roles.add("USER");
 		socialMedia = new HashMap<String, String>();
 	}
 
@@ -63,11 +62,11 @@ public class User {
 		additionalDescription = null;
 	}
 	
-	public boolean addRole(Role role) {
+	public boolean addRole(String role) {
 		return roles.add(role);		
 	}
 	
-	public boolean removeRole(Role role) {
+	public boolean removeRole(String role) {
 		return roles.remove(role);
 	}
 	

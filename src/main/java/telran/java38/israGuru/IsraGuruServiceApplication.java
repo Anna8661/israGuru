@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import telran.java38.israGuru.enumIsraGuru.Role;
 import telran.java38.israGuru.user.dao.UserRepository;
 import telran.java38.israGuru.user.dao.UserSecurityRepository;
 import telran.java38.israGuru.user.model.User;
@@ -34,9 +33,9 @@ public class IsraGuruServiceApplication implements CommandLineRunner  {
 			String hashpassword = passwordEncoder.encode("adminIsraGuru");
 			UserSecurity adminSecurity= new UserSecurity("admin", hashpassword);
 			User admin = new User("admin", "admin", "admin", null);
-			admin.addRole(Role.GUIDE);
-			admin.addRole(Role.VERIFIEDGUIDE);
-			admin.addRole(Role.ADMINISTRATOR);
+			admin.addRole("GUIDE");
+			admin.addRole("VERIFIEDGUIDE");
+			admin.addRole("ADMINISTRATOR");
 			userSecurityRepository.save(adminSecurity);	
 			userRepository.save(admin);
 		}		

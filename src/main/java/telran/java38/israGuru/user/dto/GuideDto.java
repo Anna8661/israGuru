@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import telran.java38.israGuru.enumIsraGuru.Role;
 
 @Getter
 @Builder
@@ -24,5 +23,5 @@ public class GuideDto {
 	String description;
 	String additionalDescription;
 	Map<String, String> SocialMediaDto;	
-	Set<Role> roles;
+	Set<String> roles;
 }

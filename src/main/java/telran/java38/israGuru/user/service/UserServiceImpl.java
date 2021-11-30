@@ -1,60 +1,61 @@
 package telran.java38.israGuru.user.service;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import telran.java38.israGuru.User.model.User;
-import telran.java38.israGuru.User.model.UserSecurity;
-import telran.java38.israGuru.guide.dto.GuideDto;
-import telran.java38.israGuru.guide.dto.GuideUpdateDto;
-import telran.java38.israGuru.guide.dto.GuideUpdatePasswordDto;
-import telran.java38.israGuru.guide.dto.UserDto;
-import telran.java38.israGuru.guide.dto.UserRegDto;
-import telran.java38.israGuru.guide.dto.UserUpdateDto;
-import telran.java38.israGuru.guide.dto.UserUpdatePasswordDto;
-import telran.java38.israGuru.guide.dto.GuideRegDto;
-import telran.java38.israGuru.guide.dto.exception.GuideConflictException;
-import telran.java38.israGuru.guide.dto.exception.GuideNotFoundException;
 import telran.java38.israGuru.user.dao.UserRepository;
 import telran.java38.israGuru.user.dao.UserSecurityRepository;
+import telran.java38.israGuru.user.dto.GuideDto;
+import telran.java38.israGuru.user.dto.UserDto;
 import telran.java38.israGuru.user.dto.exception.UserConflictException;
 import telran.java38.israGuru.user.dto.exception.UserNotFoundException;
+import telran.java38.israGuru.user.dto.get.GuideRegDto;
+import telran.java38.israGuru.user.dto.get.GuideUpdateDto;
+import telran.java38.israGuru.user.dto.get.GuideUpdatePasswordDto;
+import telran.java38.israGuru.user.dto.get.UserRegDto;
+import telran.java38.israGuru.user.dto.get.UserUpdateDto;
+import telran.java38.israGuru.user.dto.get.UserUpdatePasswordDto;
+import telran.java38.israGuru.user.model.User;
+import telran.java38.israGuru.user.model.UserSecurity;
 
 
 @Service
-public class UserServiceImpl implements GuideServise {
+public class UserServiceImpl implements UserServise {
 	
-	@Autowired
-	UserRepository guideRepository;
-	@Autowired
-	UserSecurityRepository guideSecurityRepository;
+	UserRepository userRepository;
+	UserSecurityRepository userSecurityRepository;
 	ModelMapper modelMapper;
+	PasswordEncoder passwordEncoder;
 	
-
-	public UserServiceImpl(UserRepository guideRepository, ModelMapper modelMapper, UserSecurityRepository guideSecurityRepository) {
-		this.guideRepository = guideRepository;
+	
+	@Autowired
+	public UserServiceImpl(UserRepository userRepository, UserSecurityRepository userSecurityRepository,
+			ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.userSecurityRepository = userSecurityRepository;
 		this.modelMapper = modelMapper;
-		this.guideSecurityRepository = guideSecurityRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
-
+	
+//for guide
 
 	@Override
 	public GuideDto addNewGuide(GuideRegDto newGuide) {
-		if (guideRepository.existsById(newGuide.getEmail())) {
-			throw new GuideConflictException(newGuide.getEmail());			
+		if (userRepository.existsById(newGuide.getEmail())) {
+			throw new UserConflictException("Guide " + newGuide.getEmail());			
 		}
-		String hashPassword = BCrypt.hashpw(newGuide.getPassword(), BCrypt.gensalt());		
+		String hashPassword = passwordEncoder.encode(newGuide.getPassword());		
 		User guide = modelMapper.map(newGuide, User.class);
-		guide = guideRepository.save(guide);
-		guideSecurityRepository.save(new UserSecurity(newGuide.getEmail(), hashPassword));
+		guide = userRepository.save(guide);
+		userSecurityRepository.save(new UserSecurity(newGuide.getEmail(), hashPassword));
 		return modelMapper.map(guide, GuideDto.class);				
 	}
 	
 	@Override
 	public GuideDto updateGuide(String guideId, GuideUpdateDto guideUpdate) {
-		User guide = guideRepository.findById(guideId).orElseThrow(()-> new GuideNotFoundException(guideId));
+		User guide = userRepository.findById(guideId).orElseThrow(()-> new UserNotFoundException("Guide " + guideId));
 		if (guideUpdate.getFirstName() != null) {guide.setFirstName(guideUpdate.getFirstName());}
 		if (guideUpdate.getLastName() != null) {guide.setLastName(guideUpdate.getLastName());}
 		if (guideUpdate.getImage() != null) {guide.setImage(guideUpdate.getImage());}
@@ -63,8 +64,7 @@ public class UserServiceImpl implements GuideServise {
 		if (guideUpdate.getDescription() != null) {guide.setDescription(guideUpdate.getDescription());}
 		if (guideUpdate.getAdditionalDescription() != null) {guide.setAdditionalDescription(guideUpdate.getAdditionalDescription());}
 		if (guideUpdate.getSocialMedia() != null) {guide.setSocialMedia(guideUpdate.getSocialMedia());}
-		guide = guideRepository.save(guide);
-			
+		guide = userRepository.save(guide);			
 		return modelMapper.map(guide, GuideDto.class);		
 		
 	}
@@ -74,82 +74,90 @@ public class UserServiceImpl implements GuideServise {
 		if (guideUpdatePasswordDto.getPassword() == null) {
 			return false;			
 		}
-		String hashPassword = BCrypt.hashpw(guideUpdatePasswordDto.getPassword(), BCrypt.gensalt());	
-		guideSecurityRepository.save(new UserSecurity(guideId, hashPassword));
+		String hashPassword = passwordEncoder.encode(guideUpdatePasswordDto.getPassword());		
+		userSecurityRepository.save(new UserSecurity(guideId, hashPassword));
 		return true;
 	}
 
 	@Override
 	public GuideDto findGuideById(String guideId) {
-		User guide = guideRepository.findById(guideId).orElseThrow(()-> new GuideNotFoundException(guideId));
+		User guide = userRepository.findById(guideId).orElseThrow(()-> new UserNotFoundException("Guide " + guideId));
 		return modelMapper.map(guide, GuideDto.class);	
 	}
 
 	@Override
 	public boolean removeGuide(String guideId) {
-		if (!guideRepository.existsById(guideId)) {
-			throw new GuideNotFoundException(guideId);
+		if (!userRepository.existsById(guideId)) {
+			throw new UserNotFoundException("Guide " + guideId);
 		}
-		guideRepository.deleteById(guideId);
-		if (!guideRepository.existsById(guideId)) {
+		userRepository.deleteById(guideId);
+		userSecurityRepository.deleteById(guideId);
+		if (!userRepository.existsById(guideId)) {
 			return true;
 		}
-		return false;
-		
+		return false;		
 	}
-
-
-
 	
-}
+//for user
 
-@Override
-public UserDto addNewUser(UserRegDto newUser) {
-	if (userRepository.existsById(newUser.getEmail())) {
-		throw new UserConflictException(newUser.getEmail());			
+	@Override
+	public UserDto addNewUser(UserRegDto newUser) {
+		if (userRepository.existsById(newUser.getEmail())) {
+			throw new UserConflictException(newUser.getEmail());			
+		}
+		String hashPassword = passwordEncoder.encode(newUser.getPassword());
+		User user = modelMapper.map(newUser, User.class);
+		user = userRepository.save(user);
+		userSecurityRepository.save(new UserSecurity(newUser.getEmail(), hashPassword));
+		return modelMapper.map(user, UserDto.class);	
 	}
-	String hashPassword = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());	
-	User user = modelMapper.map(newUser, User.class);
-	user = userRepository.save(user);
-	userSecurityRepository.save(new UserSecurity(newUser.getEmail(), hashPassword));
-	return modelMapper.map(user, UserDto.class);			
-}
 
-
-@Override
-public UserDto updateUser(String userId, UserUpdateDto userUpdateDto) {
-	User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-	if (userUpdateDto.getName() != null) {user.setName(userUpdateDto.getName());}
-	if (userUpdateDto.getPhoneNumber() != null) {user.setPhoneNumber(userUpdateDto.getPhoneNumber());}
-	user = userRepository.save(user);
-	return modelMapper.map(user, UserDto.class);					
-}
-
-
-@Override
-public UserDto findUserById(String userId) {
-	User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-	return modelMapper.map(user, UserDto.class);	
-}
-
-
-@Override
-public boolean removeUser(String userId) {
-	if (!userRepository.existsById(userId)) {
-		throw new UserNotFoundException(userId);
+	@Override
+	public UserDto updateUser(String userId, UserUpdateDto userUpdateDto) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+		if (userUpdateDto.getFirstName() != null) {user.setFirstName(userUpdateDto.getFirstName());}
+		if (userUpdateDto.getLastName() != null) {user.setLastName(userUpdateDto.getLastName());}
+		if (userUpdateDto.getPhoneNumbers() != null) {user.setPhoneNumbers(userUpdateDto.getPhoneNumbers());}
+		user = userRepository.save(user);
+		return modelMapper.map(user, UserDto.class);	
 	}
-	userRepository.deleteById(userId);
-	if (userRepository.existsById(userId)) {
-		return false;
+
+	@Override
+	public UserDto findUserById(String userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+		return modelMapper.map(user, UserDto.class);	
 	}
-	return true;
-}
 
+	@Override
+	public boolean removeUser(String userId) {
+		if (!userRepository.existsById(userId)) {
+			throw new UserNotFoundException(userId);
+		}
+		userRepository.deleteById(userId);
+		userSecurityRepository.deleteById(userId);
+		if (userRepository.existsById(userId)) {
+			return false;
+		}
+		return true;
+	}
 
-@Override
-public boolean updateUserPassword(String userId, UserUpdatePasswordDto userUpdatePasswordDto) {
-	String hashPassword = BCrypt.hashpw(userUpdatePasswordDto.getPassword(), BCrypt.gensalt());	
-	userSecurityRepository.save(new UserSecurity(userId, hashPassword));
-	return true;
+	@Override
+	public boolean updateUserPassword(String userId, UserUpdatePasswordDto userUpdatePasswordDto) {
+			String hashPassword = passwordEncoder.encode(userUpdatePasswordDto.getPassword());
+			userSecurityRepository.save(new UserSecurity(userId, hashPassword));
+			return true;
+	}
+
+	@Override
+	public GuideDto findVerifiedGuideById(String guideId) {
+		User guide = userRepository.findById(guideId).orElseThrow(()-> new UserNotFoundException("Guide " + guideId));
+		if (!guide.getRoles().contains("VERIFIEDGUIDE")) {
+			throw new UserNotFoundException("VERIFIED GUIDE " + guideId);			
+		}
+		return modelMapper.map(guide, GuideDto.class);	
+
+	}
+	
+	
 }
 

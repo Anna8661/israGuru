@@ -14,9 +14,9 @@ public interface EventService {
 
 	EventDto updateEvent(String id, UpdateEventDto updateEvent);
 
-	boolean activityEvent(String id, String guideId);
+	boolean activityEvent(String id);
 
-	boolean disactivityEvent(String id, String guideId);
+	boolean disactivityEvent(String id);
 
 	Iterable<EventDtoMini> findEventsByEmailGuide(String guideId);
 
